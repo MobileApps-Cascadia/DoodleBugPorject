@@ -24,48 +24,21 @@
         android:layout_alignParentStart="true"
         android:src="@drawable/color_selector" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/horizontalScrollView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true" >
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgBee"
-            android:src="@drawable/bee_sticker" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgDinosaur"
-            android:src="@drawable/dinosaur_sticker" />
+            </LinearLayout>
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgKitty"
-            android:src="@drawable/kitty_sticker" />
+     </HorizontalScrollView>
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgTaz"
-            android:src="@drawable/taz_sticker" />
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgLego"
-            android:src="@drawable/lego_sticker" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgTurkey"
-            android:src="@drawable/turkey_sticker" />
-    </LinearLayout>
 </RelativeLayout>

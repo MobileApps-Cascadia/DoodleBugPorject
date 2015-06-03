@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_picks">
+        <item id="drawpRed">Red</item>
+        <item id="drawpOrange">Orange</item>
+        <item id="drawpYellow">Yellow</item>
+        <item id="drawpGreen">Green</item>
+        <item id="drawpBlue">Blue</item>
+        <item id="drawpViolet">Violet</item>
+        <item id="drawpBlack">Black</item>
+        <item id="drawpWhite">White</item>
+     </string-array>
+</resources>

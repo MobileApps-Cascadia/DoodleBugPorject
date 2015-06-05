@@ -1,4 +1,7 @@
-//Lap To
+//Prepare this class file how to integrate camera in activity
+//will need to add permission in manifests xml fil.
+//use intent
+//after take take picture, send the photo to Draw screen and set background or imageView.
 package edu.cascadia.doodlebug;
 
 

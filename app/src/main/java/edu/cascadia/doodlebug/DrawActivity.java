@@ -1,17 +1,73 @@
 package edu.cascadia.doodlebug;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
-public class DrawActivity extends ActionBarActivity {
+public class DrawActivity extends Activity {
+
+    RelativeLayout drawLayout;
+    int CAMERA_PIC_REQUEST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
+
+        drawLayout = (RelativeLayout) findViewById(R.id.DrawLayout);
+        Bitmap img;
+        Drawable drawImg;
+        Bundle extra = getIntent().getExtras();
+        if(extra != null) {
+            img = (Bitmap) extra.get("image");
+            Drawable d = new BitmapDrawable(getResources(), img);
+            drawLayout.setBackground(d);
+        }
+
+        ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButttonTakePic);
+        ButtonClick.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                // request code
+
+                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if( requestCode == CAMERA_PIC_REQUEST)
+        {
+            //  data.getExtras()
+            Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
+            Drawable d = new BitmapDrawable(getResources(), imgTaken);
+
+            drawLayout.setBackground(d);
+        }
+        else
+        {
+            Toast.makeText(DrawActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 

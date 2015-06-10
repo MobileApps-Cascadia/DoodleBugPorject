@@ -16,8 +16,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         final Context context = this;
+
         ImageButton imgBtnCamera = (ImageButton) findViewById(R.id.imageButton);
+
         imgBtnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

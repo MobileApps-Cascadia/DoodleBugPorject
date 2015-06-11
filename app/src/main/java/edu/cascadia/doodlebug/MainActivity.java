@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    int CAMERA_PIC_REQUEST = 2;
+    int CAMERA_PIC_REQUEST = 2; //camera permission request code (1337, 1880)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,28 +23,40 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.imageButtonDraw);
+
+        //launch the camera
         ButtonClick.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
+                //request and launch camera
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 // request code
-
+                // taken picture and return the result
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+            }
+        });
 
+        //open Draw Activity
+        ButtonDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent drawActivity = new Intent(MainActivity.this, DrawActivity.class);
+                startActivity(drawActivity);
             }
         });
    }
 
+    //result image taken from camera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        //return result photo taken from camera
         if( requestCode == CAMERA_PIC_REQUEST)
         {
             //  data.getExtras()
             Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
-//            ImageView image =(ImageView) findViewById(R.id.imageView2);
-//            image.setImageBitmap(thumbnail);
             Intent toDraw = new Intent(this, DrawActivity.class);
             toDraw.putExtra("image", imgTaken);
             startActivity(toDraw);

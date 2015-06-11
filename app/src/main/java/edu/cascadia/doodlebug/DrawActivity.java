@@ -28,6 +28,8 @@ public class DrawActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
+        //prepare draw image that return from camera to layout background
+        //need to convert picture to bitmap first.
         drawLayout = (RelativeLayout) findViewById(R.id.DrawLayout);
         Bitmap img;
         Drawable drawImg;
@@ -38,6 +40,8 @@ public class DrawActivity extends Activity {
             drawLayout.setBackground(d);
         }
 
+        //camera image button click
+        //prepare launch camera and taken picture
         ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButttonTakePic);
         ButtonClick.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -47,11 +51,12 @@ public class DrawActivity extends Activity {
                 // request code
 
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-
             }
         });
     }
 
+    //retaken picture as anytime
+    //result return from camera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {

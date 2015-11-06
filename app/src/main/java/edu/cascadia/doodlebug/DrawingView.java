@@ -12,6 +12,9 @@ import android.view.View;
 
 public class DrawingView extends View {
 
+    private final int TOUCH_TOLERANCE = 10;
+
+    private float mX, mY; // coordinates for tracking path drawing
     private Bitmap mBitmap; // bitmap for the canvas
     private Canvas mCanvas; // canvas object to draw onto
     private Path mPath; // path for drawing
@@ -71,7 +74,13 @@ public class DrawingView extends View {
     }
 
     private void touchStart(float x, float y) {
-        // TODO: implement touchStart method
+        // set up the path to start drawing from this location
+        mPath.reset();
+        mPath.moveTo(x, y);
+
+        // add the start coordinates
+        mX = x;
+        mY = y;
     }
 
     private void touchMove(float x, float y) {

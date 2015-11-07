@@ -7,10 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DrawingView extends View {
 
@@ -23,9 +25,12 @@ public class DrawingView extends View {
     private Canvas mCanvas; // canvas object to draw onto
     private Path mPath; // path for drawing
     private Paint mPaint; // paint to describe the line being drawn
+    private Paint mBitmapPaint;
     private Context mContext;
 
-    private HashMap<Integer, Path> pathMap; // hashmap for storing all of the paths
+    private Map<Integer, Path> pathMap; // hashmap for storing all of the paths
+
+    private GestureDetector singleTapDetector;
 
     public DrawingView(Context c) {
         this(c, null);
@@ -33,38 +38,68 @@ public class DrawingView extends View {
 
     public DrawingView(Context c, AttributeSet attr) {
         super(c, attr);
+        setWillNotDraw(false);
         mContext = c;
         pathMap = new HashMap<>();
         mPath = new Path();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.BLACK);
-        mPaint.setStrokeWidth(12);
+        mPaint.setColor(Color.GREEN);
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(12);
+
+        mBitmapPaint = new Paint();
+        mBitmapPaint.setColor(Color.RED);
+
+        singleTapDetector = new GestureDetector(getContext(), singleTapListener);
     }
 
     @Override
-    public void onSizeChanged(int w, int h, int oldW, int oldH) {
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+
+        // TEST DRAWING TO DETERMINE CAUSE OF BUG
+        mPath.reset();
+        mPath.moveTo(200, 200);
+        mPath.lineTo(250, 150);
+        mPath.quadTo(250, 150, 175, 220);
+        mPath.lineTo(0, 0);
 
         mCanvas.drawPath(mPath, mPaint);
     }
 
+    private GestureDetector.SimpleOnGestureListener singleTapListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+            };
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        if (singleTapDetector.onTouchEvent(event))
+            return true;
+
         float x = event.getX();
         float y = event.getY();
 
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
                 touchStart(x, y);
                 invalidate();
                 break;
@@ -73,6 +108,7 @@ public class DrawingView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 touchEnd();
                 invalidate();
                 break;
@@ -82,6 +118,7 @@ public class DrawingView extends View {
     }
 
     private void touchStart(float x, float y) {
+
         // set up the path to start drawing from this location
         mPath.reset();
         mPath.moveTo(x, y);

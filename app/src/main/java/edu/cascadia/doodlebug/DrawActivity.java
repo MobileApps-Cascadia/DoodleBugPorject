@@ -25,7 +25,7 @@ public class DrawActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
-        drawingView = new DrawingView(this);
+        drawingView = (DrawingView) findViewById(R.id.drawingView);
 
         //prepare draw image that return from camera to layout background
         //need to convert picture to bitmap first.

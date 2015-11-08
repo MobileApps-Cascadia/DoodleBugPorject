@@ -38,7 +38,6 @@ public class DrawingView extends View {
 
     public DrawingView(Context c, AttributeSet attr) {
         super(c, attr);
-        setWillNotDraw(false);
         mContext = c;
         pathMap = new HashMap<>();
         mPath = new Path();
@@ -53,6 +52,7 @@ public class DrawingView extends View {
 
         mBitmapPaint = new Paint();
         mBitmapPaint.setColor(Color.RED);
+        mBitmapPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         singleTapDetector = new GestureDetector(getContext(), singleTapListener);
     }
@@ -60,7 +60,7 @@ public class DrawingView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
     }
 
@@ -68,7 +68,9 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+        // mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+
+        canvas.drawColor(Color.BLACK);
 
         // TEST DRAWING TO DETERMINE CAUSE OF BUG
         mPath.reset();

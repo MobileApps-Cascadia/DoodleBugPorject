@@ -72,14 +72,6 @@ public class DrawingView extends View {
 
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
-        // TEST DRAWING TO DETERMINE CAUSE OF BUG
-        mPath.reset();
-        mPath.moveTo(200, 200);
-        mPath.lineTo(250, 150);
-        mPath.quadTo(250, 150, 175, 220);
-        mPath.lineTo(0, 0);
-        mPath.close();
-
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -97,8 +89,8 @@ public class DrawingView extends View {
         if (singleTapDetector.onTouchEvent(event))
             return true;
 
-        float x = event.getX();
-        float y = event.getY();
+        final float x = event.getX();
+        final float y = event.getY();
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:

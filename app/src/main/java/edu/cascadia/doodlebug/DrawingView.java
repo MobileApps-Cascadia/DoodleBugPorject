@@ -7,18 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DrawingView extends View {
 
-    // TODO: fix path not drawing to the screen
-
-    private final int TOUCH_TOLERANCE = 1;
+    private final int TOUCH_TOLERANCE = 4;
 
     private float mX, mY; // coordinates for tracking path drawing
     private Bitmap mBitmap; // bitmap for the canvas
@@ -28,10 +22,6 @@ public class DrawingView extends View {
     private Paint mBitmapPaint;
     private Context mContext;
 
-    private Map<Integer, Path> pathMap; // hashmap for storing all of the paths
-
-    private GestureDetector singleTapDetector;
-
     public DrawingView(Context c) {
         this(c, null);
     }
@@ -39,8 +29,9 @@ public class DrawingView extends View {
     public DrawingView(Context c, AttributeSet attr) {
         super(c, attr);
         mContext = c;
-        pathMap = new HashMap<>();
         mPath = new Path();
+
+        // set up paint object for the line
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -50,11 +41,8 @@ public class DrawingView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
 
+        // bitmap paint to draw bitmap
         mBitmapPaint = new Paint();
-        mBitmapPaint.setColor(Color.RED);
-        mBitmapPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-
-        singleTapDetector = new GestureDetector(getContext(), singleTapListener);
     }
 
     @Override
@@ -75,19 +63,8 @@ public class DrawingView extends View {
         canvas.drawPath(mPath, mPaint);
     }
 
-    private GestureDetector.SimpleOnGestureListener singleTapListener =
-            new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            };
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        if (singleTapDetector.onTouchEvent(event))
-            return true;
 
         final float x = event.getX();
         final float y = event.getY();

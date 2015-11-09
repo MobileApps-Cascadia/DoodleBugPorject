@@ -118,4 +118,12 @@ public class DrawingView extends View {
         mPath.close();
         mPath.reset();
     }
+
+    public int getLineWidth() {
+        return (int) mPaint.getStrokeWidth();
+    }
+
+    public void setLineWidth(int width) {
+        mPaint.setStrokeWidth(width);
+    }
 }

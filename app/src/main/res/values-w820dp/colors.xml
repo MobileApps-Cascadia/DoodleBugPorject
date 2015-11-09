@@ -1,0 +1,13 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="drawRed">#ff0000</color>
+    <color name="drawOrange">#ff6600</color>
+    <color name="drawYellow">#ffff00</color>
+    <color name="drawGreen">#00ff00</color>
+    <color name="drawBlue">#0000ff</color>
+    <color name="drawViolet">#ff00ff</color>
+    <color name="drawBlack">#000000</color>
+    <color name="drawWhite">#ffffff</color>
+
+</resources>

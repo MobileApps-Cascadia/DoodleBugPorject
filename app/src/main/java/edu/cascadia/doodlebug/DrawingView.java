@@ -68,9 +68,9 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-
         canvas.drawColor(Color.BLACK);
+
+        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
         // TEST DRAWING TO DETERMINE CAUSE OF BUG
         mPath.reset();
@@ -78,8 +78,9 @@ public class DrawingView extends View {
         mPath.lineTo(250, 150);
         mPath.quadTo(250, 150, 175, 220);
         mPath.lineTo(0, 0);
+        mPath.close();
 
-        mCanvas.drawPath(mPath, mPaint);
+        canvas.drawPath(mPath, mPaint);
     }
 
     private GestureDetector.SimpleOnGestureListener singleTapListener =
@@ -147,6 +148,7 @@ public class DrawingView extends View {
     private void touchEnd() {
         mPath.lineTo(mX, mY);
         mCanvas.drawPath(mPath, mPaint);
+        mPath.close();
         mPath.reset();
     }
 }

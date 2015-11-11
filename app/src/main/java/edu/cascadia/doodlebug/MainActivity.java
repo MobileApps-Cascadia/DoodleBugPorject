@@ -1,35 +1,72 @@
 package edu.cascadia.doodlebug;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
+
+    int CAMERA_PIC_REQUEST = 2; //camera permission request code (1337, 1880)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Context context = this;
+        ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.imageButtonDraw);
 
-        ImageButton imgBtnCamera = (ImageButton) findViewById(R.id.imageButton);
-
-        imgBtnCamera.setOnClickListener(new View.OnClickListener() {
+        //launch the camera
+        ButtonClick.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                Intent camera = new Intent(context, CameraActivity.class);
-                startActivity(camera);
+            public void onClick(View view)
+            {
+                //request and launch camera
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                // request code
+                // taken picture and return the result
+                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
-   }
 
+        //open Draw Activity
+        ButtonDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent drawActivity = new Intent(MainActivity.this, DrawActivity.class);
+                startActivity(drawActivity);
+            }
+        });
+    }
+
+    //result image taken from camera
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        //return result photo taken from camera
+        if( requestCode == CAMERA_PIC_REQUEST)
+        {
+            //  data.getExtras()
+            Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
+            Intent toDraw = new Intent(this, DrawActivity.class);
+            toDraw.putExtra("image", imgTaken);
+            startActivity(toDraw);
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

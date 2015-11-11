@@ -5,13 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_draw">DrawActivity</string>
-<<<<<<< HEAD
-
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">hhhhho</string>
     <string name="color_dialog_fragment">color dialog</string>
-
-=======
     <string name="color_picker">color_selector</string>
->>>>>>> a33877f6c0f95b9f0482a2fc262458c2415ec673
 </resources>

@@ -1,29 +1,48 @@
 package edu.cascadia.doodlebug;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 public class MainActivity extends Activity
         implements StartupFragment.OnMenuSelectListener,
-        CameraFragment.OnPictureTakenListener {
+        CameraFragment.OnPictureTakenListener,
+        DrawFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getFragmentManager()
-                .beginTransaction()
-                .add(new StartupFragment(), null)
+        addFragment(new StartupFragment());
+    }
+
+    void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }
+
+    void addFragment(FragmentManager fm, Fragment f) {
+        fm.beginTransaction()
+                .add(R.id.fragmentContainer, f, null)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    void popAddFragment(Fragment f) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void startCamera() { popAddFragment(new CameraFragment()); }
+
+    public void startCanvas() { addFragment(new DrawFragment()); }
+
+    public void onPictureTaken(Bitmap bitmap) {
+        DrawFragment df = new DrawFragment();
+        df.setBackground(bitmap);
+        popAddFragment(df);
     }
 
     @Override
@@ -41,17 +60,4 @@ public class MainActivity extends Activity
         return item.getItemId() == R.id.action_settings
                 || super.onOptionsItemSelected(item);
     }
-
-    public void startCamera() {
-        FragmentManager fm = getFragmentManager();
-        fm.popBackStack();
-        fm.beginTransaction()
-                .add(new CameraFragment(), null)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    public void startCanvas() {}
-
-    public void onPictureTaken(Bitmap bitmap) {}
 }

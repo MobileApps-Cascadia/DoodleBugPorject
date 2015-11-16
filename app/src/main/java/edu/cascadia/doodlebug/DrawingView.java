@@ -126,4 +126,8 @@ public class DrawingView extends View {
     public void setLineWidth(int width) {
         mPaint.setStrokeWidth(width);
     }
+
+    public void setBackground(Bitmap bitmap) {
+        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+    }
 }

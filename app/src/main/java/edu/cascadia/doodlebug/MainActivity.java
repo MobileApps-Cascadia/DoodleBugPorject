@@ -9,9 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity
-        implements StartupFragment.OnMenuSelectListener,
-        CameraFragment.OnPictureTakenListener,
-        DrawFragment.OnFragmentInteractionListener {
+        implements StartupFragment.OnMenuSelectListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +33,9 @@ public class MainActivity extends Activity
                 .addToBackStack(null)
                 .commit();
     }
-    public void startCamera() { popAddFragment(new CameraFragment()); }
 
-    public void startCanvas() { addFragment(new DrawFragment()); }
-
-    public void onPictureTaken(Bitmap bitmap) {
-        DrawFragment df = new DrawFragment();
-        df.setBackground(bitmap);
-        popAddFragment(df);
-    }
+    public void startCanvas() { addFragment(DrawFragment.newInstance(false)); }
+    public void startCamera() { addFragment(DrawFragment.newInstance(true)); }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,6 +1,7 @@
 package edu.cascadia.doodlebug;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,59 +11,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
-
-    int CAMERA_PIC_REQUEST = 2; //camera permission request code (1337, 1880)
+public class MainActivity extends Activity
+        implements StartupFragment.OnMenuSelectListener,
+        CameraFragment.OnPictureTakenListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.drawButton);
-
-        //launch the camera
-        ButtonClick.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view)
-            {
-                //request and launch camera
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                // request code
-                // taken picture and return the result
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-            }
-        });
-
-        //open Draw Activity
-        ButtonDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent drawActivity = new Intent(MainActivity.this, DrawActivity.class);
-                startActivity(drawActivity);
-            }
-        });
-    }
-
-    //result image taken from camera
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        //return result photo taken from camera
-        if( requestCode == CAMERA_PIC_REQUEST)
-        {
-            //  data.getExtras()
-            Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
-            Intent toDraw = new Intent(this, DrawActivity.class);
-            toDraw.putExtra("image", imgTaken);
-            startActivity(toDraw);
-        }
-        else
-        {
-            Toast.makeText(MainActivity.this, "Picture not taken", Toast.LENGTH_LONG);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        getFragmentManager()
+                .beginTransaction()
+                .add(new StartupFragment(), null)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -77,6 +38,20 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings
+                || super.onOptionsItemSelected(item);
     }
+
+    public void startCamera() {
+        FragmentManager fm = getFragmentManager();
+        fm.popBackStack();
+        fm.beginTransaction()
+                .add(new CameraFragment(), null)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void startCanvas() {}
+
+    public void onPictureTaken(Bitmap bitmap) {}
 }

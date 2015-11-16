@@ -49,14 +49,13 @@ public class CameraActivity extends Activity {
     {
         if( requestCode == CAMERA_PIC_REQUEST)
         {
-            //  data.getExtras()
             Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
             ImageView image =(ImageView) findViewById(R.id.imageView2);
             image.setImageBitmap(imgTaken);
         }
         else
         {
-            Toast.makeText(CameraActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
+            Toast.makeText(CameraActivity.this, "Picture not taken", Toast.LENGTH_LONG);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 
 public class MainActivity extends Activity {
 
@@ -63,7 +60,7 @@ public class MainActivity extends Activity {
         }
         else
         {
-            Toast.makeText(MainActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
+            Toast.makeText(MainActivity.this, "Picture not taken", Toast.LENGTH_LONG);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -80,13 +77,6 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 }

@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.imageButtonDraw);
+        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.drawButton);
 
         //launch the camera
         ButtonClick.setOnClickListener(new View.OnClickListener(){

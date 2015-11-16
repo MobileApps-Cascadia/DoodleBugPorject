@@ -16,15 +16,25 @@ public class StartupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_startup, container, false);
+        View v = inflater.inflate(R.layout.fragment_startup, container, false);
+
+        menuItemListener(v, R.id.cameraButton, new View.OnClickListener() {
+            public void onClick(View view) {
+                if (mListener != null) mListener.startCamera();
+            }
+        });
+
+        menuItemListener(v, R.id.drawButton, new View.OnClickListener() {
+            public void onClick(View view) {
+                if (mListener != null) mListener.startCanvas();
+            }
+        });
+
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(int which) {
-        if (mListener != null) {
-            mListener.onMenuItemSelect(which);
-        }
+    void menuItemListener(View v, int id, View.OnClickListener listen) {
+        v.findViewById(id).setOnClickListener(listen);
     }
 
     @Override
@@ -45,7 +55,8 @@ public class StartupFragment extends Fragment {
     }
 
     public interface OnMenuSelectListener {
-        public void onMenuItemSelect(int which);
+        void startCamera();
+        void startCanvas();
     }
 
 }

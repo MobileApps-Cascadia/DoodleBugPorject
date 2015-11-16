@@ -20,7 +20,7 @@
     <ImageButton
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/cameraButton"
         android:src="@drawable/camera"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
@@ -29,12 +29,12 @@
         android:layout_marginBottom="61dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/imageButtonDraw" />
+        android:layout_alignBottom="@+id/drawButton" />
 
     <ImageButton
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/imageButtonDraw"
+        android:id="@+id/drawButton"
         android:src="@drawable/logo"
         android:layout_below="@+id/lblTitle"
         android:layout_centerHorizontal="true"

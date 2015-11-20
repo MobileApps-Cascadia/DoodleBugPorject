@@ -31,6 +31,9 @@ public class DrawingView extends View {
         mContext = c;
         mPath = new Path();
 
+        setWillNotDraw(false);
+        setWillNotCacheDrawing(false);
+
         // set up paint object for the line
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -54,7 +57,18 @@ public class DrawingView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas = mCanvas;
         super.onDraw(canvas);
+
+        canvas.drawColor(Color.GREEN);
+
+        // Test Code
+        mPath.reset();
+        mPath.moveTo(0, 0);
+        mPath.lineTo(300, 500);
+        mPath.quadTo(300, 500, 330, 750);
+        mPath.lineTo(getWidth(), getHeight());
+        mPath.close();
 
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 

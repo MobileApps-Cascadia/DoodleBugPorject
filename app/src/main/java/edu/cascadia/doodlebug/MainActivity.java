@@ -1,35 +1,49 @@
 package edu.cascadia.doodlebug;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity
+        implements StartupFragment.OnMenuSelectListener,
+        CameraFragment.OnPictureTakenListener,
+        DrawFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragment(new StartupFragment());
+    }
 
-        final Context context = this;
+    void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }
 
-        ImageButton imgBtnCamera = (ImageButton) findViewById(R.id.imageButton);
+    void addFragment(FragmentManager fm, Fragment f) {
+        fm.beginTransaction()
+                .add(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
 
-        imgBtnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent camera = new Intent(context, CameraActivity.class);
-                startActivity(camera);
-            }
-        });
-   }
+    void popAddFragment(Fragment f) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void startCamera() { popAddFragment(new CameraFragment()); }
 
+    public void startCanvas() { addFragment(new DrawFragment()); }
+
+    public void onPictureTaken(Bitmap bitmap) {
+        DrawFragment df = new DrawFragment();
+        df.setBackground(bitmap);
+        popAddFragment(df);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,13 +57,7 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings
+                || super.onOptionsItemSelected(item);
     }
 }

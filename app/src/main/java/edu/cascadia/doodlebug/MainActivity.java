@@ -2,8 +2,6 @@ package edu.cascadia.doodlebug;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,19 +13,16 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(new StartupFragment());
+        addFragmentInitially(new StartupFragment());
     }
 
-    void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }
-
-    void addFragment(FragmentManager fm, Fragment f) {
-        fm.beginTransaction()
+    void addFragmentInitially(Fragment f) {
+        getFragmentManager().beginTransaction()
                 .add(R.id.fragmentContainer, f, null)
-                .addToBackStack(null)
                 .commit();
     }
 
-    void popAddFragment(Fragment f) {
+    void addFragment(Fragment f) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, f, null)
                 .addToBackStack(null)

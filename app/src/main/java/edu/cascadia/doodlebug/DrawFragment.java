@@ -25,9 +25,11 @@ public class DrawFragment extends Fragment {
         return fragment;
     }
 
+    @Override
     public void onActivityCreated(Bundle b) {
         if (getArguments().getBoolean(TAKE_PHOTO))
             takePhoto();
+        super.onActivityCreated(b);
     }
 
     @Override

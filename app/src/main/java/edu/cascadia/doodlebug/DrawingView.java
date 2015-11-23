@@ -18,16 +18,14 @@ public class DrawingView extends View {
 
     private final int TOUCH_TOLERANCE = 10;
 
-    private float mX, mY; // coordinates for tracking path drawing
     private Bitmap mBitmap; // bitmap for the canvas
     private Canvas mCanvas; // canvas object to draw onto
-    private Path mPath; // path for drawing
     private Paint mPaint; // paint to describe the line being drawn
     private Paint mBitmapPaint;
     private Context mContext;
 
-    private final Map<Integer, Point> mPointMap = new HashMap<Integer, Point>();
-    private final Map<Integer, Path> mPathMap = new HashMap<Integer, Path>();
+    private final Map<Integer, Point> mPointMap = new HashMap<Integer, Point>(); // HashMap for storing all of the paths
+    private final Map<Integer, Path> mPathMap = new HashMap<Integer, Path>(); // HashMap for storing all of the last points for the paths
 
     public DrawingView(Context c) {
         this(c, null);
@@ -144,11 +142,11 @@ public class DrawingView extends View {
 
     private void touchEnd(int lineID) {
         Path path = mPathMap.get(lineID);
-        // path.close();
         mCanvas.drawPath(path, mPaint);
         path.reset();
     }
 
+    // method for clearing the screen. will leave canvas white afterwards
     private void clear() {
         mPathMap.clear();
         mPointMap.clear();

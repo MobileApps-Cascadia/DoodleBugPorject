@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="edu.cascadia.doodlebug.CameraFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Picture OK?"
+        android:id="@+id/confirmPicture"
+        android:layout_gravity="center_horizontal|top" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="512dp"
+        android:id="@+id/pictureTaken"
+        android:layout_gravity="center" />
+
+</FrameLayout>

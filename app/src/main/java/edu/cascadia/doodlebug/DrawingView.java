@@ -6,21 +6,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DrawingView extends View {
 
-    private final int TOUCH_TOLERANCE = 4;
+    private final int TOUCH_TOLERANCE = 10;
 
-    private float mX, mY; // coordinates for tracking path drawing
     private Bitmap mBitmap; // bitmap for the canvas
     private Canvas mCanvas; // canvas object to draw onto
-    private Path mPath; // path for drawing
     private Paint mPaint; // paint to describe the line being drawn
     private Paint mBitmapPaint;
     private Context mContext;
+
+    private final Map<Integer, Point> mPointMap = new HashMap<Integer, Point>(); // HashMap for storing all of the paths
+    private final Map<Integer, Path> mPathMap = new HashMap<Integer, Path>(); // HashMap for storing all of the last points for the paths
 
     public DrawingView(Context c) {
         this(c, null);
@@ -29,7 +34,9 @@ public class DrawingView extends View {
     public DrawingView(Context c, AttributeSet attr) {
         super(c, attr);
         mContext = c;
-        mPath = new Path();
+
+        setWillNotDraw(false);
+        setWillNotCacheDrawing(false);
 
         // set up paint object for the line
         mPaint = new Paint();
@@ -58,65 +65,93 @@ public class DrawingView extends View {
 
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
-        canvas.drawPath(mPath, mPaint);
+        for (Integer key : mPathMap.keySet())
+            canvas.drawPath(mPathMap.get(key), mPaint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        final float x = event.getX();
-        final float y = event.getY();
+        int actionIndex = event.getActionIndex();
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                touchStart(x, y);
-                invalidate();
+                touchStart(event.getX(actionIndex), event.getY(actionIndex), event.getPointerId(actionIndex));
                 break;
             case MotionEvent.ACTION_MOVE:
-                touchMove(x, y);
-                invalidate();
+                touchMove(event);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-                touchEnd();
-                invalidate();
+                touchEnd(event.getPointerId(actionIndex));
                 break;
         }
 
+        invalidate();
         return true;
     }
 
-    private void touchStart(float x, float y) {
+    private void touchStart(float x, float y, int lineID) {
 
-        // set up the path to start drawing from this location
-        mPath.reset();
-        mPath.moveTo(x, y);
+        Point point;
+        Path path;
 
-        // add the start coordinates
-        mX = x;
-        mY = y;
+        if (mPathMap.containsKey(lineID)) {
+            path = mPathMap.get(lineID);
+            path.reset();
+            point = mPointMap.get(lineID);
+        } else {
+            path = new Path();
+            point = new Point();
+            mPathMap.put(lineID, path);
+            mPointMap.put(lineID, point);
+        }
+
+        path.moveTo(x, y);
+        point.x = (int) x;
+        point.y = (int) y;
     }
 
-    private void touchMove(float x, float y) {
-        // get the change in both x and y directions
-        float deltaX = Math.abs(x - mX);
-        float deltaY = Math.abs(y - mY);
+    private void touchMove(MotionEvent event) {
 
-        // check if greater than touch tolerance
-        if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE) {
-            //draw the line to the new coordinates
-            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            mX = x;
-            mY = y;
+        for (int i = 0; i < event.getPointerCount(); ++i) {
+            int pointerID = event.getPointerId(i);
+            int pointerIndex = event.findPointerIndex(pointerID);
+
+            if (mPathMap.containsKey(pointerID)) {
+                float x = event.getX(pointerIndex);
+                float y = event.getY(pointerIndex);
+
+                Path path = mPathMap.get(pointerID);
+                Point point = mPointMap.get(pointerID);
+
+                float deltaX = Math.abs(x - point.x);
+                float deltaY = Math.abs(y - point.y);
+
+                // check if greater than touch tolerance
+                if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE) {
+                    //draw the line to the new coordinates
+                    path.quadTo(point.x, point.y, (x + point.x) / 2, (y + point.y) / 2);
+                    point.x = (int) x;
+                    point.y = (int) y;
+                }
+            }
         }
     }
 
-    private void touchEnd() {
-        mPath.lineTo(mX, mY);
-        mCanvas.drawPath(mPath, mPaint);
-        mPath.close();
-        mPath.reset();
+    private void touchEnd(int lineID) {
+        Path path = mPathMap.get(lineID);
+        mCanvas.drawPath(path, mPaint);
+        path.reset();
+    }
+
+    // method for clearing the screen. will leave canvas white afterwards
+    private void clear() {
+        mPathMap.clear();
+        mPointMap.clear();
+        mBitmap.eraseColor(Color.WHITE);
+        invalidate();
     }
 
     public int getLineWidth() {
@@ -125,5 +160,9 @@ public class DrawingView extends View {
 
     public void setLineWidth(int width) {
         mPaint.setStrokeWidth(width);
+    }
+
+    public void setBackground(Bitmap bitmap) {
+        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
     }
 }

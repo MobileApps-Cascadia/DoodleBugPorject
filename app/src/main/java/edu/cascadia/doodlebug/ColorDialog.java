@@ -25,9 +25,7 @@ public class ColorDialog extends Fragment {
         return fragment;
     }
 
-    public ColorDialog() {
-        // Required empty public constructor
-    }
+    public ColorDialog() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

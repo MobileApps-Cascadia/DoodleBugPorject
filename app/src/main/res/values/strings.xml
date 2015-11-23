@@ -5,11 +5,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_draw">DrawActivity</string>
-    <string name="title_activity_color_picker">colorPicker</string>
     <string name="button_set_line_width">Set Line Width</string>
+    <string name="color_dialog_fragment">color dialog</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">hhhhho</string>
-    <string name="color_dialog_fragment">color dialog</string>
-    <string name="color_picker">color_selector</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

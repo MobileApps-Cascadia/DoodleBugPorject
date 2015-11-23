@@ -21,14 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CameraActivity"
-            android:label="@string/title_activity_camera" >
-        </activity>
-        <activity
-            android:name=".DrawActivity"
-            android:label="@string/title_activity_draw" >
-        </activity>
     </application>
 
 </manifest>

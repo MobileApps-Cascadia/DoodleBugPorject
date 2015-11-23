@@ -1,71 +1,48 @@
 package edu.cascadia.doodlebug;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-
-public class MainActivity extends Activity {
-
-    int CAMERA_PIC_REQUEST = 2; //camera permission request code (1337, 1880)
+public class MainActivity extends Activity
+        implements StartupFragment.OnMenuSelectListener,
+        CameraFragment.OnPictureTakenListener,
+        DrawFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.imageButtonDraw);
-
-        //launch the camera
-        ButtonClick.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view)
-            {
-                //request and launch camera
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                // request code
-                // taken picture and return the result
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-            }
-        });
-
-        //open Draw Activity
-        ButtonDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent drawActivity = new Intent(MainActivity.this, DrawActivity.class);
-                startActivity(drawActivity);
-            }
-        });
+        addFragment(new StartupFragment());
     }
 
-    //result image taken from camera
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        //return result photo taken from camera
-        if( requestCode == CAMERA_PIC_REQUEST)
-        {
-            //  data.getExtras()
-            Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
-            Intent toDraw = new Intent(this, DrawActivity.class);
-            toDraw.putExtra("image", imgTaken);
-            startActivity(toDraw);
-        }
-        else
-        {
-            Toast.makeText(MainActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }
+
+    void addFragment(FragmentManager fm, Fragment f) {
+        fm.beginTransaction()
+                .add(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    void popAddFragment(Fragment f) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+    public void startCamera() { popAddFragment(new CameraFragment()); }
+
+    public void startCanvas() { addFragment(new DrawFragment()); }
+
+    public void onPictureTaken(Bitmap bitmap) {
+        DrawFragment df = new DrawFragment();
+        df.setBackground(bitmap);
+        popAddFragment(df);
     }
 
     @Override
@@ -80,13 +57,7 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings
+                || super.onOptionsItemSelected(item);
     }
 }

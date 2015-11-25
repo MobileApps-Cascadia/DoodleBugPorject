@@ -167,4 +167,6 @@ public class DrawingView extends View {
     }
 
     public int getDrawingColor() { return mPaint.getColor(); }
+
+    public void setDrawingColor(int color) { mPaint.setColor(color); }
 }

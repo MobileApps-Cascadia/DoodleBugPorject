@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -63,8 +64,16 @@ public class LineWidthDialog extends DialogFragment
    // gets a reference to the DoodleFragment
    private DrawFragment getDrawFragment()
    {
-      return (DrawFragment) getFragmentManager().findFragmentById(
-         R.id.drawFragment);
+      if (getActivity() != null && (getActivity().getClass() == MainActivity.class)) {
+         MainActivity activity = (MainActivity) getActivity();
+
+         if (activity.getCurrentFragment() != null && activity.getCurrentFragment().getClass() == DrawFragment.class) {
+            DrawFragment fragment = (DrawFragment) activity.getCurrentFragment();
+            return fragment;
+         }
+      }
+
+      return null;
    }
    
    // tell DoodleFragment that dialog is now displayed

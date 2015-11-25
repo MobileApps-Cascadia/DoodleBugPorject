@@ -11,7 +11,7 @@
         android:visibility="visible"
         class="edu.cascadia.doodlebug.DrawingView" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/imageView"
@@ -19,7 +19,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/color_selector"
-        android:contentDescription=""/>
+        android:contentDescription=""
+        android:onClick="showColorDialog"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -75,4 +76,15 @@
         android:layout_toRightOf="@+id/imageView"
         android:scaleType="fitXY"
         android:layout_marginLeft="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Line Width"
+        android:id="@+id/button"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageButttonTakePic"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:onClick="showLineWidthDialog"/>
 </RelativeLayout>

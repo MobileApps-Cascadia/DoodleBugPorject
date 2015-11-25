@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class DrawFragment extends Fragment {
+
     private DrawingView mView;
 
     private final static int CAMERA_PIC_REQUEST = 2;
@@ -69,4 +70,6 @@ public class DrawFragment extends Fragment {
     public void setDialogOnScreen(boolean visible) {
         dialogOnScreen = visible;
     }
+
+
 }

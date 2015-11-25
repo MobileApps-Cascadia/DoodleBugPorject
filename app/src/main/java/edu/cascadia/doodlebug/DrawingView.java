@@ -1,6 +1,8 @@
 package edu.cascadia.doodlebug;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -130,4 +132,5 @@ public class DrawingView extends View {
     public void setBackground(Bitmap bitmap) {
         mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
     }
+
 }

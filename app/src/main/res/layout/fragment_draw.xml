@@ -40,38 +40,43 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgBee"
-                android:src="@drawable/bee_sticker" />
+                android:id="@+id/imgCat"
+                android:src="@drawable/cat_sticker" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgDinosaur"
-                android:src="@drawable/dinosaur_sticker" />
+                android:id="@+id/imgDog"
+                android:src="@drawable/dog_sticker" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgKitty"
-                android:src="@drawable/kitty_sticker" />
+                android:id="@+id/imgDolphin"
+                android:src="@drawable/dolphin_sticker" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgTaz"
-                android:src="@drawable/taz_sticker" />
+                android:id="@+id/imgHeart"
+                android:src="@drawable/heart_sticker" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgLego"
-                android:src="@drawable/lego_sticker" />
+                android:id="@+id/imgSmilie"
+                android:src="@drawable/smilie_sticker" />
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="50dp"
+                android:id="@+id/imgMustache"
+                android:src="@drawable/mustache_sticker" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:id="@+id/imgTurkey"
-                android:src="@drawable/turkey_sticker" />
+                android:id="@+id/imgSunglasses"
+                android:src="@drawable/sunglasses_sticker" />
         </LinearLayout>
 
         <ImageButton

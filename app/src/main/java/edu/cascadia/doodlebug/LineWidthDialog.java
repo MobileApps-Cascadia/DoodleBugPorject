@@ -40,11 +40,11 @@ public class LineWidthDialog extends DialogFragment
          R.id.widthImageView);
       
       // configure widthSeekBar 
-      final DoodleView doodleView = getDoodleFragment().getDoodleView();
+      final DrawingView drawingView = getDrawFragment().getDrawingView();
       final SeekBar widthSeekBar = (SeekBar)
          lineWidthDialogView.findViewById(R.id.widthSeekBar);
       widthSeekBar.setOnSeekBarChangeListener(lineWidthChanged);
-      widthSeekBar.setProgress(doodleView.getLineWidth()); 
+      widthSeekBar.setProgress(drawingView.getLineWidth());
        
       // add Set Line Width Button
       builder.setPositiveButton(R.string.button_set_line_width,
@@ -52,7 +52,7 @@ public class LineWidthDialog extends DialogFragment
          {
             public void onClick(DialogInterface dialog, int id)
             {
-               doodleView.setLineWidth(widthSeekBar.getProgress());
+               drawingView.setLineWidth(widthSeekBar.getProgress());
             } 
          } 
       ); // end call to setPositiveButton
@@ -61,10 +61,10 @@ public class LineWidthDialog extends DialogFragment
    } // end method onCreateDialog   
    
    // gets a reference to the DoodleFragment
-   private DoodleFragment getDoodleFragment()
+   private DrawFragment getDrawFragment()
    {
-      return (DoodleFragment) getFragmentManager().findFragmentById(
-         R.id.doodleFragment);
+      return (DrawFragment) getFragmentManager().findFragmentById(
+         R.id.drawFragment);
    }
    
    // tell DoodleFragment that dialog is now displayed
@@ -72,7 +72,7 @@ public class LineWidthDialog extends DialogFragment
    public void onAttach(Activity activity)
    {
       super.onAttach(activity);
-      DoodleFragment fragment = getDoodleFragment();
+      DrawFragment fragment = getDrawFragment();
       
       if (fragment != null)
          fragment.setDialogOnScreen(true);
@@ -83,7 +83,7 @@ public class LineWidthDialog extends DialogFragment
    public void onDetach()
    {
       super.onDetach();
-      DoodleFragment fragment = getDoodleFragment();
+      DrawFragment fragment = getDrawFragment();
       
       if (fragment != null)
          fragment.setDialogOnScreen(false);
@@ -104,7 +104,7 @@ public class LineWidthDialog extends DialogFragment
             // configure a Paint object for the current SeekBar value
             Paint p = new Paint();
             p.setColor(
-               getDoodleFragment().getDoodleView().getDrawingColor());
+               getDrawFragment().getDrawingView().getDrawingColor());
             p.setStrokeCap(Paint.Cap.ROUND);
             p.setStrokeWidth(progress);
             

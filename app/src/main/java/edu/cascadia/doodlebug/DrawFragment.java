@@ -14,6 +14,7 @@ public class DrawFragment extends Fragment {
 
     private final static int CAMERA_PIC_REQUEST = 2;
     private static String TAKE_PHOTO = "TAKE_PHOTO";
+    private boolean dialogOnScreen = false;
 
     public DrawFragment() {}
 
@@ -59,5 +60,13 @@ public class DrawFragment extends Fragment {
         if (requestCode == CAMERA_PIC_REQUEST && resultCode == Activity.RESULT_OK) {
             mView.setBackground((Bitmap) data.getExtras().get("data"));
         }
+    }
+
+    public DrawingView getDrawingView() {
+        return mView;
+    }
+
+    public void setDialogOnScreen(boolean visible) {
+        dialogOnScreen = visible;
     }
 }

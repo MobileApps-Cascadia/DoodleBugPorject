@@ -165,4 +165,6 @@ public class DrawingView extends View {
     public void setBackground(Bitmap bitmap) {
         mCanvas.drawBitmap(bitmap, 0, 0, mBitmapPaint);
     }
+
+    public int getDrawingColor() { return mPaint.getColor(); }
 }

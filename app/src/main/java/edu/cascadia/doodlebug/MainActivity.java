@@ -1,35 +1,66 @@
 package edu.cascadia.doodlebug;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 
+public class MainActivity extends Activity
+        implements StartupFragment.OnMenuSelectListener,
+                   ColorDialog.ChangeColorListener {
 
-public class MainActivity extends ActionBarActivity {
+    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragmentInitially(new StartupFragment());
+    }
 
-        final Context context = this;
+    void addFragmentInitially(Fragment f) {
+        currentFragment = f;
 
-        ImageButton imgBtnCamera = (ImageButton) findViewById(R.id.imageButton);
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, f, null)
+                .commit();
+    }
 
-        imgBtnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent camera = new Intent(context, CameraActivity.class);
-                startActivity(camera);
-            }
-        });
-   }
+    void addFragment(Fragment f) {
+        currentFragment = f;
 
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void startCanvas() { addFragment(DrawFragment.newInstance(false)); }
+    public void startCamera() { addFragment(DrawFragment.newInstance(true)); }
+
+    public void onColorChange(int color) {
+        if (currentFragment != null && currentFragment.getClass() == DrawFragment.class) {
+            DrawFragment fragment = (DrawFragment) currentFragment;
+            fragment.getDrawingView().setDrawingColor(color);
+        }
+
+    }
+
+    public void showColorDialog(View v) {
+        ColorDialog colorDialog = new ColorDialog();
+        colorDialog.show(getFragmentManager(), "color dialog");
+    }
+
+    public void showLineWidthDialog(View v) {
+        LineWidthDialog lineWidthDialog = new LineWidthDialog();
+        lineWidthDialog.show(getFragmentManager(), "line width dialog");
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,13 +74,7 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings
+                || super.onOptionsItemSelected(item);
     }
 }

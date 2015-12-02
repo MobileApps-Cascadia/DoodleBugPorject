@@ -18,8 +18,7 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(new StartupFragment());
-
+        addFragmentInitially(new StartupFragment());
     }
 
     void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }

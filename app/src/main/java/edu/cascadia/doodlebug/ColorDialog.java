@@ -1,6 +1,7 @@
 package edu.cascadia.doodlebug;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -11,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
-public class ColorDialog extends Fragment {
+public class ColorDialog extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String CURRENT_COLOR = "current color";
     private int previousColor;

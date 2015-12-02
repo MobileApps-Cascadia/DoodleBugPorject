@@ -1,8 +1,6 @@
 package edu.cascadia.doodlebug;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -133,4 +131,7 @@ public class DrawingView extends View {
         mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
     }
 
+    public int getDrawingColor() { return mPaint.getColor(); }
+
+    public void setDrawingColor(int color) { mPaint.setColor(color); }
 }

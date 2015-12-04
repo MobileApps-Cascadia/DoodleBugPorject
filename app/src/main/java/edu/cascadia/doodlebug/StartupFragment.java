@@ -18,11 +18,11 @@ public class StartupFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_startup, container, false);
 
-        menuItemListener(v, R.id.cameraButton, new View.OnClickListener() {
+        /*menuItemListener(v, R.id.cameraButton, new View.OnClickListener() {
             public void onClick(View view) {
                 if (mListener != null) mListener.startCamera();
             }
-        });
+        });*/
 
         menuItemListener(v, R.id.drawButton, new View.OnClickListener() {
             public void onClick(View view) {

@@ -1,71 +1,65 @@
 package edu.cascadia.doodlebug;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+public class MainActivity extends Activity
+        implements StartupFragment.OnMenuSelectListener,
+                   ColorDialog.ChangeColorListener {
 
-public class MainActivity extends Activity {
-
-    int CAMERA_PIC_REQUEST = 2; //camera permission request code (1337, 1880)
+    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragmentInitially(new StartupFragment());
+    }
 
-        ImageButton ButtonClick = (ImageButton) findViewById(R.id.imageButton);
-        ImageButton ButtonDraw = (ImageButton) findViewById(R.id.imageButtonDraw);
+    void addFragmentInitially(Fragment f) {
+        currentFragment = f;
 
-        //launch the camera
-        ButtonClick.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view)
-            {
-                //request and launch camera
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                // request code
-                // taken picture and return the result
-                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-            }
-        });
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, f, null)
+                .commit();
+    }
 
-        //open Draw Activity
-        ButtonDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent drawActivity = new Intent(MainActivity.this, DrawActivity.class);
-                startActivity(drawActivity);
-            }
-        });
-   }
+    void addFragment(Fragment f) {
+        currentFragment = f;
 
-    //result image taken from camera
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        //return result photo taken from camera
-        if( requestCode == CAMERA_PIC_REQUEST)
-        {
-            //  data.getExtras()
-            Bitmap imgTaken = (Bitmap) data.getExtras().get("data");
-            Intent toDraw = new Intent(this, DrawActivity.class);
-            toDraw.putExtra("image", imgTaken);
-            startActivity(toDraw);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, f, null)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void startCanvas() { addFragment(DrawFragment.newInstance(false)); }
+    public void startCamera() { addFragment(DrawFragment.newInstance(true)); }
+
+    public void onColorChange(int color) {
+        if (currentFragment != null && currentFragment.getClass() == DrawFragment.class) {
+            DrawFragment fragment = (DrawFragment) currentFragment;
+            fragment.getDrawingView().setDrawingColor(color);
         }
-        else
-        {
-            Toast.makeText(MainActivity.this, "Picture NOt taken", Toast.LENGTH_LONG);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    public void showColorDialog(View v) {
+        ColorDialog colorDialog = new ColorDialog();
+        colorDialog.show(getFragmentManager(), "color dialog");
+    }
+
+    public void showLineWidthDialog(View v) {
+        LineWidthDialog lineWidthDialog = new LineWidthDialog();
+        lineWidthDialog.show(getFragmentManager(), "line width dialog");
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
     }
 
     @Override
@@ -80,13 +74,7 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings
+                || super.onOptionsItemSelected(item);
     }
 }

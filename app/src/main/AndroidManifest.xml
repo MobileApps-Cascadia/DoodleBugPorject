@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.cascadia.doodlebug" >
+    package="edu.cascadia.doodlebug"
+    android:versionCode="1"
+    android:versionName="Alpha">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,14 +22,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".CameraActivity"
-            android:label="@string/title_activity_camera" >
-        </activity>
-        <activity
-            android:name=".DrawActivity"
-            android:label="@string/title_activity_draw" >
         </activity>
     </application>
 

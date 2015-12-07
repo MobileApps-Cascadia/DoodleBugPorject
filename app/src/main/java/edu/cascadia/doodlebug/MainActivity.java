@@ -2,6 +2,7 @@ package edu.cascadia.doodlebug;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +59,11 @@ public class MainActivity extends Activity
         lineWidthDialog.show(getFragmentManager(), "line width dialog");
     }
 
+    public void showClearDialog(View v) {
+        ClearDialog clearDialog = new ClearDialog();
+        clearDialog.show(getFragmentManager(), "clear dialog");
+    }
+
     public Fragment getCurrentFragment() {
         return currentFragment;
     }
@@ -77,4 +83,5 @@ public class MainActivity extends Activity
         return item.getItemId() == R.id.action_settings
                 || super.onOptionsItemSelected(item);
     }
+
 }

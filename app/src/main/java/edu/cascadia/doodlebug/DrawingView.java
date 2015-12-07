@@ -147,7 +147,7 @@ public class DrawingView extends View {
     }
 
     // method for clearing the screen. will leave canvas white afterwards
-    private void clear() {
+    public void clear() {
         mPathMap.clear();
         mPointMap.clear();
         mBitmap.eraseColor(Color.WHITE);

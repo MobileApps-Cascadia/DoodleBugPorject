@@ -2,17 +2,16 @@ package edu.cascadia.doodlebug;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity
         implements StartupFragment.OnMenuSelectListener,
-        CameraFragment.OnPictureTakenListener,
-        DrawFragment.OnFragmentInteractionListener {
+                   ColorDialog.ChangeColorListener {
+
+    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,29 +20,46 @@ public class MainActivity extends Activity
         addFragmentInitially(new StartupFragment());
     }
 
-    void addFragment(Fragment f) { addFragment(getFragmentManager(), f); }
+    void addFragmentInitially(Fragment f) {
+        currentFragment = f;
 
-    void addFragment(FragmentManager fm, Fragment f) {
-        fm.beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.fragmentContainer, f, null)
-                .addToBackStack(null)
                 .commit();
     }
 
-    void popAddFragment(Fragment f) {
+    void addFragment(Fragment f) {
+        currentFragment = f;
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, f, null)
                 .addToBackStack(null)
                 .commit();
     }
-    public void startCamera() { popAddFragment(new CameraFragment()); }
 
-    public void startCanvas() { addFragment(new DrawFragment()); }
+    public void startCanvas() { addFragment(DrawFragment.newInstance(false)); }
+    public void startCamera() { addFragment(DrawFragment.newInstance(true)); }
 
-    public void onPictureTaken(Bitmap bitmap) {
-        DrawFragment df = new DrawFragment();
-        df.setBackground(bitmap);
-        popAddFragment(df);
+    public void onColorChange(int color) {
+        if (currentFragment != null && currentFragment.getClass() == DrawFragment.class) {
+            DrawFragment fragment = (DrawFragment) currentFragment;
+            fragment.getDrawingView().setDrawingColor(color);
+        }
+
+    }
+
+    public void showColorDialog(View v) {
+        ColorDialog colorDialog = new ColorDialog();
+        colorDialog.show(getFragmentManager(), "color dialog");
+    }
+
+    public void showLineWidthDialog(View v) {
+        LineWidthDialog lineWidthDialog = new LineWidthDialog();
+        lineWidthDialog.show(getFragmentManager(), "line width dialog");
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
     }
 
     @Override

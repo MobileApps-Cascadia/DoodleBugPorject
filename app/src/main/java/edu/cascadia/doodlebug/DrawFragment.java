@@ -2,6 +2,7 @@ package edu.cascadia.doodlebug;
 
 import android.app.Activity;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ClipData;
 import android.graphics.Bitmap;
@@ -9,16 +10,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class DrawFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private View.OnTouchListener MyTouchListener;
     private DrawingView mView;
-    private ImageView selectedImage = null;
+    private android.widget.RelativeLayout.LayoutParams layoutParams;
 
     private final static int CAMERA_PIC_REQUEST = 2;
     private static String TAKE_PHOTO = "TAKE_PHOTO";
@@ -37,26 +42,6 @@ public class DrawFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Add stickers - assign the touch listeners to the view which we want to move
-        mView.findViewById(R.id.imgCat).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgDog).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgDolphin).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgHeart).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgMustache).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgSmilie).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.imgSunglasses).setOnTouchListener(new MyTouchListener());
-        mView.findViewById(R.id.drawingView).setOnDragListener(new MyDragListener());
-
-
-        imageCat.setOnTouchListener(new ChoiceTouchListener());
-        imageDog.setOnTouchListener(new ChoiceTouchListener());
-        imageDolphin.setOnTouchListener(new ChoiceTouchListener());
-        imageHeart.setOnTouchListener(new ChoiceTouchListener());
-        imageMustache.setOnTouchListener(new ChoiceTouchListener());
-        imageSmilie.setOnTouchListener(new ChoiceTouchListener());
-        imageSunglasses.setOnTouchListener(new ChoiceTouchListener());
-
     }
 
     public void onActivityCreated(Bundle b) {
@@ -78,23 +63,15 @@ public class DrawFragment extends Fragment {
         });
 
         // stickers code - added by Hiromi
-        v.findViewById(R.id.imgCat).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick (View view){
-                String viewID = "imgCat";
-                selectSticker(view, viewID);
-                return true;
-            }
-        });
-
-        v.findViewById(R.id.imgDog).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick (View view){
-                String viewID = "imgDog";
-                selectSticker(view, viewID);
-                return true;
-            }
-        });
+        // Add stickers - assign the touch listeners to the view which we want to move
+        v.findViewById(R.id.imgCat).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgDog).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgDolphin).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgHeart).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgMustache).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgSmilie).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.imgSunglasses).setOnTouchListener(new ChoiceTouchListener());
+        v.findViewById(R.id.drawingView).setOnDragListener(new ChoiceDragListener());
 
         mView = (DrawingView) v.findViewById(R.id.drawingView);
         return v;
@@ -121,17 +98,70 @@ public class DrawFragment extends Fragment {
         dialogOnScreen = visible;
     }
 
-    // sticker click method
-    public void selectSticker(View view, String imageViewID){
-        ClipData.Item item = new ClipData.Item((CharSequence) view.getTag());
-        String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-        String imgView = imageViewID;
-        selectedImage = (ImageView) view.findViewById(R.id.imgView);
 
-        ClipData dragData = new ClipData(view.getTag().toString(), mimeTypes, item);
-        View.DragShadowBuilder myShadow = new View.DragShadowBuilder(selectedImage);
+    // Listener for touch sticker
+    private final class ChoiceTouchListener implements View.OnTouchListener {
 
-        view.startDrag(dragData, myShadow, null, 0);
+        public boolean onTouch(View view, MotionEvent motionEvent){
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                // setup drag
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                //start dragging the item touched
+                view.startDrag(data, shadowBuilder, view, 0);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    // Listener for drag sticker
+    private class ChoiceDragListener implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            //handle drag events
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
+                    Toast.makeText(DrawingView.this, R.string.drag_started, Toast.LENGTH_SHORT).show();
+                    //no action necessary
+                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    Toast.makeText(DrawingView.this, R.string.drag_entered, Toast.LENGTH_SHORT).show();
+                    int x_cord = (int) event.getX();
+                    int y_cord = (int) event.getY();
+                    //no action necessary
+                    break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    Toast.makeText(DrawingView.this, R.string.drag_exited, Toast.LENGTH_SHORT).show();
+                    x_cord = (int) event.getX();
+                    y_cord = (int) event.getY();
+                    layoutParams.leftMargin = x_cord;
+                    layoutParams.topMargin = y_cord;
+                    v.setLayoutParams(layoutParams);
+                    //no action necessary
+                    break;
+                case DragEvent.ACTION_DRAG_LOCATION  :
+                    Toast.makeText(DrawingView.this, R.string.drag_location, Toast.LENGTH_SHORT).show();
+                    x_cord = (int) event.getX();
+                    y_cord = (int) event.getY();
+                    break;
+                case DragEvent.ACTION_DROP:
+                    Toast.makeText(DrawingView.this, R.string.drag_drop, Toast.LENGTH_SHORT).show();
+                    //handle the dragged view being dropped over a drop view
+
+                    break;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    Toast.makeText(DrawingView.this, R.string.drag_ended, Toast.LENGTH_SHORT).show();
+                    //no action necessary
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
     }
 
 }

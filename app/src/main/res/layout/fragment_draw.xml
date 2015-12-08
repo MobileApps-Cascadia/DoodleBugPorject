@@ -58,13 +58,19 @@
         <ImageView
             android:layout_width="48dp"
             android:layout_height="50dp"
+            android:id="@+id/imgSmilie"
+            android:src="@drawable/smilie_sticker" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="50dp"
             android:id="@+id/imgMustache"
             android:src="@drawable/mustache_sticker" />
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="50dp"
-            android:id="@+id/imgTurkey"
+            android:id="@+id/imgSunglasses"
             android:src="@drawable/sunglasses_sticker" />
     </LinearLayout>
 

@@ -15,12 +15,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class DrawFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
     private View.OnTouchListener MyTouchListener;
     private DrawingView mView;
     private android.widget.RelativeLayout.LayoutParams layoutParams;
@@ -125,17 +126,17 @@ public class DrawFragment extends Fragment {
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
-                    Toast.makeText(DrawingView.this, R.string.drag_started, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.drag_started, Toast.LENGTH_SHORT).show();
                     //no action necessary
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    Toast.makeText(DrawingView.this, R.string.drag_entered, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.drag_entered, Toast.LENGTH_SHORT).show();
                     int x_cord = (int) event.getX();
                     int y_cord = (int) event.getY();
                     //no action necessary
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    Toast.makeText(DrawingView.this, R.string.drag_exited, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.drag_exited, Toast.LENGTH_SHORT).show();
                     x_cord = (int) event.getX();
                     y_cord = (int) event.getY();
                     layoutParams.leftMargin = x_cord;
@@ -144,17 +145,27 @@ public class DrawFragment extends Fragment {
                     //no action necessary
                     break;
                 case DragEvent.ACTION_DRAG_LOCATION  :
-                    Toast.makeText(DrawingView.this, R.string.drag_location, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.drag_location, Toast.LENGTH_SHORT).show();
                     x_cord = (int) event.getX();
                     y_cord = (int) event.getY();
                     break;
                 case DragEvent.ACTION_DROP:
-                    Toast.makeText(DrawingView.this, R.string.drag_drop, Toast.LENGTH_SHORT).show();
-                    //handle the dragged view being dropped over a drop view
+                    //Toast.makeText(getActivity(), R.string.drag_drop, Toast.LENGTH_SHORT).show();
+
+                    View view = (View) event.getLocalState();
+                    ViewGroup owner = (ViewGroup) view.getParent();
+                    owner.removeView(view);
+
+                    RelativeLayout container = (RelativeLayout) v.getParent();
+                    container.addView(view);
+                    container.bringChildToFront(view);
+                    view.setX((int)event.getX() + 5 - view.getWidth() / 2);
+                    view.setY((int) event.getY() + 5 - view.getHeight() / 2);
+                    view.setVisibility(View.VISIBLE);
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    Toast.makeText(DrawingView.this, R.string.drag_ended, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.drag_ended, Toast.LENGTH_SHORT).show();
                     //no action necessary
                     break;
                 default:

@@ -58,12 +58,12 @@ public class DrawFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_draw, container, false);
-        /*v.findViewById(R.id.imageButttonTakePic).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.imageButttonTakePic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 takePhoto();
             }
-        }); */
+        });
 
         // stickers code - added by Hiromi
         // Add stickers - assign the touch listeners to the view which we want to move

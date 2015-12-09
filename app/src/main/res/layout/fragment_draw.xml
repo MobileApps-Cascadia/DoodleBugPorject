@@ -11,18 +11,7 @@
         android:visibility="visible"
         class="edu.cascadia.doodlebug.DrawingView" />
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/color_selector"
-        android:contentDescription=""
-        android:onClick="showColorDialog"/>
-
-    <!--<LinearLayout
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -74,34 +63,50 @@
             android:src="@drawable/sunglasses_sticker" />
     </LinearLayout>
 
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="55dp"
-        android:id="@+id/imageButttonTakePic"
-        android:src="@drawable/camera"
-        android:layout_toRightOf="@+id/imageView"
-        android:scaleType="fitXY"
-        android:layout_marginLeft="20dp" /> -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Line Width"
-        android:id="@+id/button"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:onClick="showLineWidthDialog"/>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/color_selector"
+            android:contentDescription=""
+            android:onClick="showColorDialog"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear"
-        android:id="@+id/clearButton"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/button"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:onClick="showClearDialog"/>
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButttonTakePic"
+            android:src="@drawable/camera"
+            android:layout_toRightOf="@+id/imageView"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="20dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Line Width"
+            android:id="@+id/button"
+            android:onClick="showLineWidthDialog"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/clearButton"
+            android:onClick="showClearDialog"
+            android:layout_alignTop="@+id/button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </LinearLayout>
+
 </RelativeLayout>

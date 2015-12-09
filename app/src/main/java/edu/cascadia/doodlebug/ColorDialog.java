@@ -2,15 +2,15 @@ package edu.cascadia.doodlebug;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
 
 public class ColorDialog extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,33 +41,53 @@ public class ColorDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_color_dialog, container, false);
-        final RadioGroup r = (RadioGroup) v.findViewById(R.id.color_choices);
+        final ViewGroup group = (ViewGroup) v.findViewById(R.id.color_choices);
 
-        addColorChoice(r, "Black", Color.BLACK);
-        addColorChoice(r, "White", Color.WHITE);
-        addColorChoice(r, "Yellow", Color.YELLOW);
-        addColorChoice(r, "Blue", Color.BLUE);
-        addColorChoice(r, "Red", Color.RED);
-        addColorChoice(r, "Green", Color.GREEN);
-        addColorChoice(r, "Magenta", Color.MAGENTA);
+        addColorChoice(group, Color.BLACK);
+        addColorChoice(group, Color.WHITE);
+        addColorChoice(group, Color.YELLOW);
+        addColorChoice(group, Color.BLUE);
+        addColorChoice(group, Color.RED);
+        addColorChoice(group, Color.GREEN);
+        addColorChoice(group, Color.MAGENTA);
 
         return v;
     }
 
-    void addColorChoice(RadioGroup group, String label, final int color) {
-        final RadioButton b = new RadioButton(getActivity());
+    class ColorChoice extends View {
+        private ShapeDrawable drawable;
+        private int r = 50;
 
-        b.setText(label);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onColorChange(color);
-            }
-        });
-        final boolean selected = color == previousColor;
-        if (!selected) b.setAlpha(0.5f);
-        b.setChecked(selected);
-        group.addView(b);
+        public ColorChoice(Context c, final int color) {
+            super(c);
+            int x = getLeft();
+            int y = getTop();
+
+            drawable = new ShapeDrawable(new OvalShape());
+            drawable.getPaint().setColor(color);
+            drawable.setBounds(x, y, x + r, y + r);
+
+            setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onColorChange(color);
+                    dismiss();
+                }
+            });
+        }
+
+        @Override
+        public void onDraw(Canvas c) { drawable.draw(c); }
+
+        @Override
+        public void onMeasure(int ws, int hs) {
+            setMeasuredDimension(r+20, r+20);
+            System.out.printf("%d, %d\n", getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
+        }
+    }
+
+    void addColorChoice(ViewGroup group, final int color) {
+        group.addView(new ColorChoice(getActivity(), color));
     }
 
     @Override

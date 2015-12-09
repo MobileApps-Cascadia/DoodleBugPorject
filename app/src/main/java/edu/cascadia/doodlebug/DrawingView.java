@@ -26,7 +26,7 @@ public class DrawingView extends View {
     private Paint mBitmapPaint;
     private Context mContext;
 
-    private final Map<Integer, Point> mPointMap = new HashMap<Integer, Point>(); // HashMap for storing all of the paths
+    private final Map<Integer, Point> mPointMap = new HashMap<>(); // HashMap for storing all of the paths
     private final Map<Integer, Path> mPathMap = new HashMap<Integer, Path>(); // HashMap for storing all of the last points for the paths
 
     public DrawingView(Context c) {
@@ -165,7 +165,9 @@ public class DrawingView extends View {
     }
 
     public void setBackground(Bitmap bitmap) {
-        mCanvas.drawBitmap(bitmap, 0, 0, mBitmapPaint);
+        mCanvas.drawBitmap(
+                Bitmap.createScaledBitmap(bitmap, mCanvas.getWidth(), mCanvas.getHeight(), false),
+                0, 0, mBitmapPaint);
     }
 
     public int getDrawingColor() { return mPaint.getColor(); }

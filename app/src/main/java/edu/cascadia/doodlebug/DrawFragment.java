@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ClipData;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Base64;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -98,7 +100,6 @@ public class DrawFragment extends Fragment {
     public void setDialogOnScreen(boolean visible) {
         dialogOnScreen = visible;
     }
-
 
     // Listener for touch sticker
     private final class ChoiceTouchListener implements View.OnTouchListener {

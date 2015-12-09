@@ -20,6 +20,7 @@ public class DrawingView extends View {
 
     private float mX, mY; // coordinates for tracking path drawing
     private Bitmap mBitmap; // bitmap for the canvas
+    private Bitmap mBackground; // canvas object "underneath" mCanvas
     private Canvas mCanvas; // canvas object to draw onto
     private Path mPath; // path for drawing
     private Paint mPaint; // paint to describe the line being drawn
@@ -65,6 +66,8 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        if (mBackground != null)
+            canvas.drawBitmap(mBackground, 0, 0, mBitmapPaint);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
         for (Integer key : mPathMap.keySet())
@@ -165,9 +168,8 @@ public class DrawingView extends View {
     }
 
     public void setBackground(Bitmap bitmap) {
-        mCanvas.drawBitmap(
-                Bitmap.createScaledBitmap(bitmap, mCanvas.getWidth(), mCanvas.getHeight(), false),
-                0, 0, mBitmapPaint);
+        mBackground = Bitmap.createScaledBitmap(
+                bitmap, mCanvas.getWidth(), mCanvas.getHeight(), false);
     }
 
     public int getDrawingColor() { return mPaint.getColor(); }

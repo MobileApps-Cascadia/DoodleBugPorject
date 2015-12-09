@@ -101,7 +101,6 @@ public class DrawFragment extends Fragment {
         dialogOnScreen = visible;
     }
 
-
     // Listener for touch sticker
     private final class ChoiceTouchListener implements View.OnTouchListener {
 

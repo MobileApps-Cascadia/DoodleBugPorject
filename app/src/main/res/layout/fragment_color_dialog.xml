@@ -3,7 +3,7 @@
     android:layout_height="match_parent" tools:context="com.example.well.colordialog.ColorDialog">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/color_choices"

@@ -43,20 +43,18 @@ public class ColorDialog extends DialogFragment {
         final View v = inflater.inflate(R.layout.fragment_color_dialog, container, false);
         final ViewGroup group = (ViewGroup) v.findViewById(R.id.color_choices);
 
+        addColorChoice(group, 0xFFFFFF66);
+        addColorChoice(group, 0xFF66CCFF);
+        addColorChoice(group, 0xFFFF6666);
+        addColorChoice(group, 0xFF66FF66);
         addColorChoice(group, Color.BLACK);
-        addColorChoice(group, Color.WHITE);
-        addColorChoice(group, Color.YELLOW);
-        addColorChoice(group, Color.BLUE);
-        addColorChoice(group, Color.RED);
-        addColorChoice(group, Color.GREEN);
-        addColorChoice(group, Color.MAGENTA);
 
         return v;
     }
 
     class ColorChoice extends View {
         private ShapeDrawable drawable;
-        private int r = 50;
+        private int r = 70;
 
         public ColorChoice(Context c, final int color) {
             super(c);
@@ -82,7 +80,6 @@ public class ColorDialog extends DialogFragment {
         @Override
         public void onMeasure(int ws, int hs) {
             setMeasuredDimension(r+20, r+20);
-            System.out.printf("%d, %d\n", getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
         }
     }
 

@@ -13,6 +13,7 @@
     <string name="drag_location">Action is DragEvent.ACTION_DRAG_LOCATION</string>
     <string name="drag_ended">Action is DragEvent.ACTION_DRAG_ENDED</string>
     <string name="drag_drop">ACTION_DROP event</string>
+    <string name="button_clear">Clear</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

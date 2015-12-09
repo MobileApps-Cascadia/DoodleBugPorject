@@ -22,7 +22,7 @@
         android:contentDescription=""
         android:onClick="showColorDialog"/>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         android:src="@drawable/camera"
         android:layout_toRightOf="@+id/imageView"
         android:scaleType="fitXY"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginLeft="20dp" /> -->
 
     <Button
         android:layout_width="wrap_content"
@@ -89,8 +89,19 @@
         android:text="Line Width"
         android:id="@+id/button"
         android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageButttonTakePic"
+        android:layout_toRightOf="@+id/imageView"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:onClick="showLineWidthDialog"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clearButton"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:onClick="showClearDialog"/>
 </RelativeLayout>

@@ -145,11 +145,7 @@ public class DrawFragment extends Fragment {
                     v.setLayoutParams(layoutParams);
                     //no action necessary
                     break;
-                case DragEvent.ACTION_DRAG_LOCATION  :
-                    //Toast.makeText(getActivity(), R.string.drag_location, Toast.LENGTH_SHORT).show();
-                    x_cord = (int) event.getX();
-                    y_cord = (int) event.getY();
-                    break;
+                case DragEvent.ACTION_DRAG_LOCATION:
                 case DragEvent.ACTION_DROP:
                     //Toast.makeText(getActivity(), R.string.drag_drop, Toast.LENGTH_SHORT).show();
 
@@ -162,7 +158,7 @@ public class DrawFragment extends Fragment {
                     container.bringChildToFront(view);
                     view.setX((int)event.getX() + 5 - view.getWidth() / 2);
                     view.setY((int) event.getY() + 5 - view.getHeight() / 2);
-                    view.setVisibility(View.VISIBLE);
+                    // view.setVisibility(View.VISIBLE);
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:

@@ -87,4 +87,15 @@
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:onClick="showLineWidthDialog"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clearButton"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:onClick="showClearDialog"/>
 </RelativeLayout>

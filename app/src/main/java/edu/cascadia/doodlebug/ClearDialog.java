@@ -33,16 +33,26 @@ public class ClearDialog extends DialogFragment{
 
 
         final DrawingView drawView = getDrawFragment().getDrawingView();
-        builder.setPositiveButton(R.string.button_clear,
+        builder.setPositiveButton(R.string.button_clear_all,
                 new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        drawView.clear();
+                        drawView.clear(false);
                     }
                 }
         ); // end call to setPositiveButton
 
+        // Clear all lines but keeps the background photo
+        builder.setNegativeButton(R.string.button_clear_keep,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        drawView.clear(true);
+                    }
+                }
+        );
         return builder.create(); // return dialog
     } // end method onCreateDialog
 

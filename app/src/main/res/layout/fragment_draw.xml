@@ -11,18 +11,7 @@
         android:visibility="visible"
         class="edu.cascadia.doodlebug.DrawingView" />
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/color_selector"
-        android:contentDescription=""
-        android:onClick="showColorDialog"/>
-
-    <!--<LinearLayout
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -31,60 +20,93 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgBee"
-            android:src="@drawable/bee_sticker" />
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="50dp"
+                android:id="@+id/imgCat"
+                android:src="@drawable/cat_sticker" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="50dp"
+                android:id="@+id/imgDog"
+                android:src="@drawable/dog_sticker" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="50dp"
+                android:id="@+id/imgDolphin"
+                android:src="@drawable/dolphin_sticker" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="50dp"
+                android:id="@+id/imgHeart"
+                android:src="@drawable/heart_sticker" />
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="50dp"
-            android:id="@+id/imgDinosaur"
-            android:src="@drawable/dinosaur_sticker" />
+            android:id="@+id/imgSmilie"
+            android:src="@drawable/smilie_sticker" />
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="50dp"
-            android:id="@+id/imgKitty"
-            android:src="@drawable/kitty_sticker" />
+            android:id="@+id/imgMustache"
+            android:src="@drawable/mustache_sticker" />
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="50dp"
-            android:id="@+id/imgTaz"
-            android:src="@drawable/taz_sticker" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgLego"
-            android:src="@drawable/lego_sticker" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:id="@+id/imgTurkey"
-            android:src="@drawable/turkey_sticker" />
+            android:id="@+id/imgSunglasses"
+            android:src="@drawable/sunglasses_sticker" />
     </LinearLayout>
 
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="55dp"
-        android:id="@+id/imageButttonTakePic"
-        android:src="@drawable/camera"
-        android:layout_toRightOf="@+id/imageView"
-        android:scaleType="fitXY"
-        android:layout_marginLeft="20dp" /> -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Line Width"
-        android:id="@+id/button"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:onClick="showLineWidthDialog"/>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/color_selector"
+            android:contentDescription=""
+            android:onClick="showColorDialog"/>
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageButttonTakePic"
+            android:src="@drawable/camera"
+            android:layout_toRightOf="@+id/imageView"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="20dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Line Width"
+            android:id="@+id/button"
+            android:onClick="showLineWidthDialog"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/clearButton"
+            android:onClick="showClearDialog"
+            android:layout_alignTop="@+id/button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </LinearLayout>
+
 </RelativeLayout>
